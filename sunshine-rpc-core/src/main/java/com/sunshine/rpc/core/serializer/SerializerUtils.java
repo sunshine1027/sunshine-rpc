@@ -6,17 +6,17 @@ package com.sunshine.rpc.core.serializer;
 public class SerializerUtils {
     public static AbstractSerializer getSerializer(SerializerEnum serializerEnum) {
         switch (serializerEnum) {
-            case MESSAGE_PACK:
-                return new MessagePackSerializer();
-            case PROTOBUF:
-                return new ProtobufSerializer();
+            case HESSIAN:
+                return new HessianSerializer();
+            case KRYO:
+                return new KryoSerializer();
             default:
-                return new MessagePackSerializer();
+                return new KryoSerializer();
         }
     }
 
     public static AbstractSerializer getDefaultSerializer() {
-        return new MessagePackSerializer();
+        return new KryoSerializer();
 
     }
 }

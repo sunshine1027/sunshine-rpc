@@ -10,10 +10,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class NettyClientHandler extends SimpleChannelInboundHandler<SunshineRpcResponse> {
 
-    protected void channelRead0(ChannelHandlerContext ctx, SunshineRpcResponse rpcResponse)
-            throws Exception {
-        //messageReceived方法,名称很别扭，像是一个内部方法.
+    protected void messageReceived(ChannelHandlerContext channelHandlerContext, SunshineRpcResponse rpcResponse) throws Exception {
         RpcCallbackUtils.callbacks.put(rpcResponse.getRequestId(), rpcResponse);
-
     }
 }

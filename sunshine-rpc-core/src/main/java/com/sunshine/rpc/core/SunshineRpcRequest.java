@@ -1,10 +1,12 @@
 package com.sunshine.rpc.core;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author sunshine1027 [sunshine10271993@gmail.com]
  */
+
 public class SunshineRpcRequest implements Serializable {
     private String requestId;
     private long createMillisTime;
@@ -59,5 +61,17 @@ public class SunshineRpcRequest implements Serializable {
 
     public void setParameters(Object[] parameters) {
         this.parameters = parameters;
+    }
+
+    @Override
+    public String toString() {
+        return "SunshineRpcRequest{" +
+                "requestId='" + requestId + '\'' +
+                ", createMillisTime=" + createMillisTime +
+                ", className='" + className + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", parameterTypes=" + Arrays.toString(parameterTypes) +
+                ", parameters=" + Arrays.toString(parameters) +
+                '}';
     }
 }

@@ -8,11 +8,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.codec.LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
-import io.netty.util.CharsetUtil;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author sunshine1027 [sunshine10271993@gmail.com]
  */
 public class NettyClient extends AbstractSunshineClient {
-    private ConcurrentHashMap<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
+    private static ConcurrentHashMap<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
     public SunshineRpcResponse send(SunshineRpcRequest request) throws Exception {
         //todo 通过zk发现
         String host = "";
@@ -49,7 +44,7 @@ public class NettyClient extends AbstractSunshineClient {
      * 初始化Bootstrap
      * @return
      */
-    public static final Bootstrap getBootstrap(){
+    public Bootstrap getBootstrap(){
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap b = new Bootstrap();
         b.group(group).channel(NioSocketChannel.class);
@@ -57,18 +52,16 @@ public class NettyClient extends AbstractSunshineClient {
             @Override
             protected void initChannel(Channel ch) throws Exception {
                 ChannelPipeline pipeline = ch.pipeline();
-                pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
-                pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
-                pipeline.addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
-                pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
-                pipeline.addLast("handler", new NettyClientHandler());
+                pipeline.addLast(new NettyDecoder(SunshineRpcResponse.class, serializer));
+                pipeline.addLast(new NettyEncoder(SunshineRpcRequest.class, serializer));
+                pipeline.addLast(new NettyClientHandler());
             }
         });
         b.option(ChannelOption.SO_KEEPALIVE, true);
         return b;
     }
 
-    public static Channel getChannel(String host, int port){
+    public Channel getChannel(String host, int port){
         Channel channel;
         try {
             channel = getBootstrap().connect(host, port).sync().channel();

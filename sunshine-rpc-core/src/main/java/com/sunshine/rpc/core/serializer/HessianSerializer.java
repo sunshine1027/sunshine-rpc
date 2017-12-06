@@ -3,7 +3,7 @@ package com.sunshine.rpc.core.serializer;
 /**
  * @author sunshine1027 [sunshine10271993@gmail.com]
  */
-public class MessagePackSerializer extends AbstractSerializer{
+public class HessianSerializer extends AbstractSerializer{
     public <T> byte[] serialize(T obj) {
         return new byte[0];
     }

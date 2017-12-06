@@ -3,6 +3,7 @@ package com.sunshine.rpc.core;
 /**
  * @author sunshine1027 [sunshine10271993@gmail.com]
  */
+
 public class SunshineRpcResponse {
     private String requestId;
     private Throwable error;
@@ -34,5 +35,14 @@ public class SunshineRpcResponse {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "SunshineRpcResponse{" +
+                "requestId='" + requestId + '\'' +
+                ", error=" + error +
+                ", result=" + result +
+                '}';
     }
 }
