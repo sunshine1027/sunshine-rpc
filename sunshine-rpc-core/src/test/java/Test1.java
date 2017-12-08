@@ -14,7 +14,8 @@ public class Test1 {
         BB bb = new BB(10);
         AA aa = new AA(5, bb);
         byte[] bytes = serializer.serialize(aa);
-        AA cc = (AA) serializer.deserialize(bytes, AA.class);
+        KryoSerializer serializer1 = new KryoSerializer();
+        AA cc = (AA) serializer1.deserialize(bytes, AA.class);
         System.out.println(cc);
     }
 }
