@@ -11,6 +11,8 @@ public class Test1 {
     @Test
     public void kryoTest() throws IOException {
         KryoSerializer serializer = new KryoSerializer();
+
+
         BB bb = new BB(10);
         AA aa = new AA(5, bb);
         byte[] bytes = serializer.serialize(aa);
