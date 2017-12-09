@@ -4,6 +4,7 @@ import com.sunshine.rpc.core.SunshineRpcRequest;
 import com.sunshine.rpc.core.SunshineRpcResponse;
 import com.sunshine.rpc.core.serializer.AbstractSerializer;
 import com.sunshine.rpc.core.serializer.SerializerUtils;
+import com.sunshine.rpc.core.util.TransportUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -21,7 +22,7 @@ public class SunshineClientProxy implements FactoryBean<Object>, InitializingBea
     private String remoteGroupId;
     private TransportEnum transportEnum = TransportEnum.NETTY;
     private AbstractSerializer serializer = SerializerUtils.getDefaultSerializer();
-    private Class<?> iface;
+    private Class<?> serviceIface;
 
     private AbstractSunshineClient client = null;
     public SunshineClientProxy() {
@@ -31,7 +32,7 @@ public class SunshineClientProxy implements FactoryBean<Object>, InitializingBea
 
     public Object getObject() throws Exception {
         return Proxy.newProxyInstance(Thread.currentThread()
-                        .getContextClassLoader(), new Class[] { iface },
+                        .getContextClassLoader(), new Class[] {serviceIface},
                 new InvocationHandler() {
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
@@ -85,8 +86,8 @@ public class SunshineClientProxy implements FactoryBean<Object>, InitializingBea
         this.serializer = serializer;
     }
 
-    public void setIface(Class<?> iface) {
-        this.iface = iface;
+    public void setServiceIface(Class<?> serviceIface) {
+        this.serviceIface = serviceIface;
     }
 
     public void afterPropertiesSet() throws Exception {

@@ -1,4 +1,5 @@
 import com.sunshine.rpc.core.serializer.KryoSerializer;
+import com.sunshine.rpc.core.util.IpUtils;
 import org.junit.Test;
 
 
@@ -19,5 +20,10 @@ public class Test1 {
         KryoSerializer serializer1 = new KryoSerializer();
         AA cc = (AA) serializer1.deserialize(bytes, AA.class);
         System.out.println(cc);
+    }
+
+    @Test
+    public void getIp() {
+        System.out.println(IpUtils.getIp());
     }
 }
