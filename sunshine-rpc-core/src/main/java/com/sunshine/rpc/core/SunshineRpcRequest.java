@@ -14,6 +14,7 @@ public class SunshineRpcRequest implements Serializable {
     private String methodName;
     private Class<?>[] parameterTypes;
     private Object[] parameters;
+    private String serverGroupId;
 
     public String getRequestId() {
         return requestId;
@@ -63,6 +64,14 @@ public class SunshineRpcRequest implements Serializable {
         this.parameters = parameters;
     }
 
+    public String getServerGroupId() {
+        return serverGroupId;
+    }
+
+    public void setServerGroupId(String serverGroupId) {
+        this.serverGroupId = serverGroupId;
+    }
+
     @Override
     public String toString() {
         return "SunshineRpcRequest{" +
@@ -72,6 +81,7 @@ public class SunshineRpcRequest implements Serializable {
                 ", methodName='" + methodName + '\'' +
                 ", parameterTypes=" + Arrays.toString(parameterTypes) +
                 ", parameters=" + Arrays.toString(parameters) +
+                ", serverGroupId='" + serverGroupId + '\'' +
                 '}';
     }
 }

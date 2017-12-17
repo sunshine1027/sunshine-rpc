@@ -44,7 +44,7 @@ public class SunshineClientProxy implements FactoryBean<Object>, InitializingBea
                         request.setMethodName(method.getName());
                         request.setParameterTypes(method.getParameterTypes());
                         request.setParameters(args);
-
+                        request.setServerGroupId(remoteGroupId);
                         // send
                         SunshineRpcResponse response = client.send(request);
                         // valid response
@@ -88,6 +88,34 @@ public class SunshineClientProxy implements FactoryBean<Object>, InitializingBea
 
     public void setServiceIface(Class<?> serviceIface) {
         this.serviceIface = serviceIface;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public String getRemoteGroupId() {
+        return remoteGroupId;
+    }
+
+    public TransportEnum getTransportEnum() {
+        return transportEnum;
+    }
+
+    public AbstractSerializer getSerializer() {
+        return serializer;
+    }
+
+    public Class<?> getServiceIface() {
+        return serviceIface;
+    }
+
+    public AbstractSunshineClient getClient() {
+        return client;
+    }
+
+    public void setClient(AbstractSunshineClient client) {
+        this.client = client;
     }
 
     public void afterPropertiesSet() throws Exception {

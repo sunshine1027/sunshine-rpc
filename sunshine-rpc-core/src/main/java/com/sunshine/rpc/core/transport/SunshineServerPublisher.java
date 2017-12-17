@@ -3,6 +3,7 @@ package com.sunshine.rpc.core.transport;
 import com.sunshine.rpc.core.serializer.AbstractSerializer;
 import com.sunshine.rpc.core.serializer.SerializerUtils;
 import com.sunshine.rpc.core.transport.netty.NettyServer;
+import com.sunshine.rpc.core.zookeeper.ZookeeperRegister;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -69,5 +70,6 @@ public class SunshineServerPublisher implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         AbstractSunshineServer nettyServer = new NettyServer(port, serializer);
         nettyServer.startServer();
+        ZookeeperRegister.registerServices(groupId, port, serviceIface.getName());
     }
 }

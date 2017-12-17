@@ -4,6 +4,7 @@ import com.sunshine.rpc.core.SunshineRpcRequest;
 import com.sunshine.rpc.core.SunshineRpcResponse;
 import com.sunshine.rpc.core.transport.AbstractSunshineClient;
 import com.sunshine.rpc.core.transport.RpcCallbackUtils;
+import com.sunshine.rpc.core.zookeeper.ZookeeperDiscovery;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -17,9 +18,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NettyClient extends AbstractSunshineClient {
     private static ConcurrentHashMap<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
     public SunshineRpcResponse send(SunshineRpcRequest request) throws Exception {
-        //todo 通过zk发现
-        String host = "";
-        int port = 0;
+        String address = ZookeeperDiscovery.discover(request.getServerGroupId(), request.getMethodName());
+        String host = address.split(":")[0];
+        int port = Integer.parseInt(address.split(":")[1]);
         Channel channel = getChannelFromCache(host, port);
         if (channel == null)
             return null;
